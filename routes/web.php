@@ -19,3 +19,4 @@ $router->get('/', function () use ($router) {
 $router->post('/category', 'CategoriesController@addCategory');
 $router->put('/category', 'CategoriesController@updateCategory');
 
+

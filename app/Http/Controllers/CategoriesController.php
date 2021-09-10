@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -27,6 +26,7 @@ class CategoriesController extends Controller
         $name = $request->input('name');
         $id = $request->input('id');
         app('db')->update("UPDATE categories SET name = :name WHERE id = :id", ['name' => $name, 'id' => $id]);
+
         return response()->json(['Success ss' => $name]);
     }
     public function check($request){
