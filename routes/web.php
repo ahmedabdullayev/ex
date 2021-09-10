@@ -17,4 +17,5 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 $router->post('/category', 'CategoriesController@addCategory');
+$router->put('/category', 'CategoriesController@updateCategory');
 
