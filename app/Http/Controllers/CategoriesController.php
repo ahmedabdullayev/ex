@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\Validator;
 class CategoriesController extends Controller
 {
 
+    public function getCategories(){
+        $categories = app('db')->select("SELECT * FROM categories");
+        return response()->json($categories);
+    }
     public function addCategory(Request $request)
     {
         //Validation
