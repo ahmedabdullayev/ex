@@ -16,7 +16,13 @@ class PostsController
        $posts = app('db')->select("SELECT * FROM posts WHERE category_id = :id", ['id' => $id[0]->id]);
         return response()->json($posts);
     }
-
+    public function deletePost($id){
+        $delete = app('db')->delete("DELETE FROM posts WHERE id = :id", ['id'=>$id]);
+        if($delete){
+            return response()->json('Success');
+        }
+        return response()->json('Bad',400);
+    }
     public function check($request){
         $validation = Validator::make($request->all(),[
             'content' => 'required|max:15|min:2',
