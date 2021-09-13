@@ -14,31 +14,48 @@ class CategoriesController extends Controller
     public function addCategory(Request $request)
     {
         //Validation
-        $this->check($request);
         //Put in table
         $name = $request->input('name');
+        //validation
+        $validation = Validator::make($request->all(),[
+            'name' => 'required|alpha_dash|max:15|min:1',
+        ]);
+        if($validation->fails()){
+            return response()->json('Please check content of post', 400);
+        }
+        //check for same category
+        $result = app('db')->select("SELECT * FROM categories WHERE name = :name ",['name'=>$name]);
+        $count = count($result);
+        if($count >= 1){
+            return response()->json('Bad', 400);
+        }
         app('db')->insert("INSERT INTO categories (name) VALUES (:name)", ['name' => $name]);
-       // DB::insert("INSERT INTO categories (name) VALUES ('$name')");
 
         return response()->json('Success');
     }
 
     public function updateCategory(Request $request){
-        //Validation
-        $this->check($request);
+
         //Update in table
         $name = $request->input('name');
         $id = $request->input('id');
+        //validation
+        $validation = Validator::make($request->all(),[
+            'name' => 'required|alpha_dash|max:15|min:1',
+        ]);
+        if($validation->fails()){
+            return response()->json('Please check content of post', 400);
+        }
+        //check for same category
+        $result = app('db')->select("SELECT * FROM categories WHERE name = :name ",['name'=>$name]);
+        $count = count($result);
+        if($count >= 1){
+            return response()->json('Bad', 400);
+        }
+
         app('db')->update("UPDATE categories SET name = :name WHERE id = :id", ['name' => $name, 'id' => $id]);
 
         return response()->json(['Success ss' => $name]);
     }
-    public function check($request){
-        $validation = Validator::make($request->all(),[
-            'name' => 'required|alpha_dash|max:15|min:1|unique:categories',
-        ]);
-        if($validation->fails()){
-            return response()->json('Please check name of category', 400);
-        }
-    }
+
 }

@@ -7,9 +7,22 @@ class PostsController
 {
     public function createPost(Request $request){
         $content = $request->input('content');
+        $category_id = $request->input('category_id');
+        $insert = app('db')->insert("INSERT INTO posts (content, category_id) VALUES (:content, :category_id)",
+            ['content' => $content, 'category_id' => $category_id]);
 
-        app('db')->insert("INSERT INTO posts (content) VALUES (:content)", ['name' => $content]);
+        $validation = Validator::make($request->all(),[
+            'content' => 'required|max:140|min:2',
+            'category_id' => 'required'
+        ]);
+        if($validation->fails()){
+            return response()->json('Please check content of post', 400);
+        }
 
+       if($insert) {
+           return response()->json('Success');
+       }
+       return response()->json('Bad insert', 402);
     }
     public function getPostsByCategory($category){
        $id = app('db')->select("SELECT id FROM categories WHERE name = :name", ['name' => $category]);
@@ -23,13 +36,13 @@ class PostsController
         }
         return response()->json('Bad',400);
     }
-    public function check($request){
-        $validation = Validator::make($request->all(),[
-            'content' => 'required|max:15|min:2',
-            'category_id' => 'required'
-        ]);
-        if($validation->fails()){
-            return response()->json('Please check content of post', 400);
-        }
-    }
+//    public function check($request){
+//        $validation = Validator::make($request->all(),[
+//            'content' => 'required|max:15|min:2',
+//            'category_id' => 'required'
+//        ]);
+//        if($validation->fails()){
+//            return response()->json('Please check content of post', 400);
+//        }
+//    }
 }
