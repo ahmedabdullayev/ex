@@ -2,7 +2,6 @@
 
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
-
 class ExampleTest extends TestCase
 {
     /**
@@ -10,7 +9,7 @@ class ExampleTest extends TestCase
      *
      * @return void
      */
-    public function testExample()
+    public function testMainPage()
     {
         $this->get('/');
 
@@ -18,4 +17,17 @@ class ExampleTest extends TestCase
             $this->app->version(), $this->response->getContent()
         );
     }
+    public function testCategories()
+    {
+        $this->get('/categories');
+
+        $this->assertEquals(200, $this->response->status()
+        );
+    }
+    public function testPostCategory(){
+        $this->post('/category', ['name'=>'TestsCategory']);
+
+        $this->assertResponseStatus(200);
+    }
+    public
 }

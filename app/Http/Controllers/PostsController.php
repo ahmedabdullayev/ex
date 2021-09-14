@@ -8,8 +8,6 @@ class PostsController
     public function createPost(Request $request){
         $content = $request->input('content');
         $category_id = $request->input('category_id');
-        $insert = app('db')->insert("INSERT INTO posts (content, category_id) VALUES (:content, :category_id)",
-            ['content' => $content, 'category_id' => $category_id]);
 
         $validation = Validator::make($request->all(),[
             'content' => 'required|max:140|min:2',
@@ -18,6 +16,8 @@ class PostsController
         if($validation->fails()){
             return response()->json('Please check content of post', 400);
         }
+        $insert = app('db')->insert("INSERT INTO posts (content, category_id) VALUES (:content, :category_id)",
+            ['content' => $content, 'category_id' => $category_id]);
 
        if($insert) {
            return response()->json('Success');
