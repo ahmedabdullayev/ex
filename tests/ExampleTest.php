@@ -25,9 +25,14 @@ class ExampleTest extends TestCase
         );
     }
     public function testPostCategory(){
-        $this->post('/category', ['name'=>'TestsCategory']);
+        $this->post('/category', ['name'=>'TestingCategory']);
 
         $this->assertResponseStatus(200);
     }
-    public
+    public function testPost(){
+        $this->post('/post/create', ['content'=>'Lorem Lorem Lorem Lorem', 'category_id'=>'1']);
+
+        $this->assertResponseStatus(200);
+    }
+
 }
