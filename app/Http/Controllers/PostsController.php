@@ -27,6 +27,11 @@ class PostsController
     public function getPostsByCategory($category){
        $id = app('db')->select("SELECT id FROM categories WHERE name = :name", ['name' => $category]);
        $posts = app('db')->select("SELECT * FROM posts WHERE category_id = :id", ['id' => $id[0]->id]);
+       // or use this better:
+        // SELECT id,content,category_id FROM posts WHERE category_id = (SELECT id FROM categories WHERE name = "Football");
+        //or this:
+        //SELECT tulemus.id, tulemus.content, tulemus.category_id
+        //FROM(SELECT id,content,category_id FROM posts) tulemus WHERE category_id =(SELECT id FROM categories WHERE name = "Football");
         return response()->json($posts);
     }
     public function deletePost($id){
