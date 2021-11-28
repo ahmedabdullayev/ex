@@ -41,7 +41,7 @@ $app->instance('path.storage', app()->basePath() . DIRECTORY_SEPARATOR . 'storag
 | your own bindings here if you like or you can make another file.
 |
 */
-
+$app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
     App\Exceptions\Handler::class
